@@ -1,0 +1,82 @@
+<ion-content>
+  <div class="form-container">
+    <ion-header>
+      <ion-toolbar class="tool" color="danger">
+        <svg width="100" height="40" xmlns="http://www.w3.org/2000/svg" class="ion-header"></svg>
+        <ion-icon class="arrow" src="/assets/arrow-back-outline.svg" slot="start" (click)="goBack()"></ion-icon>
+      </ion-toolbar>
+    </ion-header>
+     <ion-title>Registro</ion-title>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <ion-item [ngClass]="{'invalid': firstName?.invalid && (firstName?.dirty || firstName?.touched)}">
+        <ion-label position="floating">Nombres
+          <ion-icon class="person" src="/assets/person-outline.svg" slot="start"></ion-icon>
+        </ion-label>
+        <ion-input formControlName="firstName" class="rounded-input"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)">
+        <p *ngIf="firstName?.errors?.['required']">El campo nombres es requerido.</p>
+      </ion-text>
+
+      <ion-item [ngClass]="{'invalid': lastName?.invalid && (lastName?.dirty || lastName?.touched)}">
+        <ion-label position="floating">Apellidos
+          <ion-icon class="person" src="/assets/person-outline.svg" slot="start"></ion-icon>
+        </ion-label>
+        <ion-input formControlName="lastName" class="rounded-input"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)">
+        <p *ngIf="lastName?.errors?.['required']">El campo apellidos es requerido.</p>
+      </ion-text>
+
+      <ion-item [ngClass]="{'invalid': email?.invalid && (email?.dirty || email?.touched)}">
+        <ion-label position="floating">Correo Electrónico
+          <ion-icon class="mail" src="/assets/at-outline.svg" slot="start"></ion-icon>
+        </ion-label>
+        <ion-input formControlName="email" type="email" class="rounded-input"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+        <p *ngIf="email?.errors?.['required']">El campo correo electrónico es requerido.</p>
+        <p *ngIf="email?.errors?.['email']">El formato del correo electrónico no es correcto.</p>
+      </ion-text>
+
+      <ion-item [ngClass]="{'invalid': password?.invalid && (password?.dirty || password?.touched)}">
+        <ion-label position="floating">Contraseña
+          <ion-icon class="lock" src="/assets/lock-closed-outline.svg" slot="start"></ion-icon>
+        </ion-label>
+        <ion-input [type]="[passwordType]" formControlName="password" class="rounded-input">
+          <ion-icon class="eye" src="/assets/eye-off-outline.svg" slot="end" (click)="togglePassword()"></ion-icon>
+        </ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+        <p *ngIf="password?.errors?.['required']">El campo contraseña es requerido.</p>
+      </ion-text>
+
+      <ion-item [ngClass]="{'invalid': dni?.invalid && (dni?.dirty || dni?.touched)}">
+        <ion-label position="floating">Número de Identidad
+          <ion-icon class="dni" src="/assets/person-add-outline.svg" slot="start"></ion-icon>
+        </ion-label>
+        <ion-input formControlName="dni" type="number" class="rounded-input"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="dni?.invalid && (dni?.dirty || dni?.touched)">
+        <p *ngIf="dni?.errors?.['required']">El campo número de identidad es requerido.</p>
+        <p *ngIf="dni?.errors?.['pattern']">El número de identidad debe tener 13 caracteres numéricos.</p>
+      </ion-text>
+
+      <ion-item [ngClass]="{'invalid': phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)}">
+        <ion-label position="floating">Número de Teléfono
+          <ion-icon class="phone" src="/assets/call-outline.svg" slot="start"></ion-icon>
+        </ion-label>
+        <ion-input formControlName="phoneNumber" type="number" class="rounded-input"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)">
+        <p *ngIf="phoneNumber?.errors?.['required']">El campo número de teléfono es requerido.</p>
+        <p *ngIf="phoneNumber?.errors?.['pattern']">El número de teléfono debe tener al menos 8 caracteres numéricos.</p>
+      </ion-text>
+
+      <ion-button class="boton" color="717070" expand="block" type="submit" [disabled]="registerForm.invalid">Registrar</ion-button>
+    </form>
+  </div>
+</ion-content>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
