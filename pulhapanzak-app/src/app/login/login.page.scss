@@ -1,0 +1,76 @@
+.form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 12px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 16px;
+    margin-bottom: 16px;
+
+}
+ 
+.tool {
+    --ion-color-danger: #e03131;
+    width: 100%;
+    height: 100%;
+    
+}
+
+.arrow {
+    width: 50px;
+     color: rgb(248, 248, 248);
+ 
+ }
+
+ .mail {
+    width: 50px;
+    color:#ff0000;
+}
+
+.lock {
+    width: 50px;
+    color: #ff0000;
+}
+
+.eye { 
+    width: 50px;
+    color: #635f5f;
+
+}
+
+.boton {
+    background-color: #717070;
+}
+
+ion-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #e03131;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.invalid {
+    border: 2px solid #ff0000;
+}
+  
+
+
+.rounded-input {
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 1px;
+    border: 1px solid #ccc;
+    width: 100%; 
+    margin-top: 20px;
+
+
+   
+ }
+
+ion-text {
+    padding-left: 50px;
+
+}
+

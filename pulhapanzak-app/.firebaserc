@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "pulha-app-9fbcd": {
+      "hosting": {
+        "app": [
+          "pulha-app-9fbcd"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "pulha-app-9fbcd"
+  }
+}
