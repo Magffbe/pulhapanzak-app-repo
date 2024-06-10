@@ -6,20 +6,21 @@ import { NgModule } from '@angular/core';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'register',
+    redirectTo: 'login',
     pathMatch: 'full',
+  },
+   
+  {
+    path: 'login',
+    loadComponent: () => import('./auth/ui/pages/login/login.page').then( m => m.LoginPage)
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./auth/ui/pages/register/register.page').then( m => m.RegisterPageComponent)
   },
   {
     path: 'home',
     loadComponent: () => import('./home/home.page').then( m => m.HomePage)
-  },
-  {
-    path: 'register',
-    loadComponent: () => import('./register/register.page').then( m => m.RegisterPageComponent)
-  },
-  {
-    path: 'login',
-    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
   },
 ];
 
