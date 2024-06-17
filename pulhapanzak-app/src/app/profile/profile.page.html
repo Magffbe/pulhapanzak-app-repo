@@ -1,0 +1,31 @@
+<ion-content>
+  <form [formGroup]="profileForm">
+    <ion-item>
+      <ion-label>Nombre completo</ion-label>
+      <ion-input type="text" formControlName="fullName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Número de identidad</ion-label>
+      <ion-input type="number" formControlName="idNumber"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Fecha de nacimiento</ion-label>
+      <ion-datetime picker="date" formControlName="birthDate"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Número de teléfono</ion-label>
+      <ion-input type="number" formControlName="phoneNumber"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-img [src]="profilePictureUrl || 'assets/default-profile-picture.png'" (click)="selectImage()"></ion-img>
+    </ion-item>
+
+    <ion-button [disabled]="!profileForm.valid">Guardar</ion-button>
+    <ion-button (click)="logout()">Cerrar sesión</ion-button>
+  </form>
+</ion-content>
+
