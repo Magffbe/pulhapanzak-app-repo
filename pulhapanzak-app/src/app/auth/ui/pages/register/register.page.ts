@@ -46,9 +46,6 @@ import { Router } from '@angular/router';
 
 })
 export class RegisterPageComponent {
-togglePassword() {
-throw new Error('Method not implemented.');
-}
 onSubmit() {
 throw new Error('Method not implemented.');
 }
@@ -56,11 +53,11 @@ goBack() {
 throw new Error('Method not implemented.');
 }
   registerForm: FormGroup;
+  passwordType: string = 'password';
 
   constructor(
     private fb: FormBuilder,
-    
-    @Inject(AuthService) private authService: AuthService
+    private authService: AuthService
   ) {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -102,6 +99,8 @@ throw new Error('Method not implemented.');
       this.authService.register(email, password, userData);
     }
   }
+
+  togglePasswordVisibility() {
+    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+  }
 }
-
-
