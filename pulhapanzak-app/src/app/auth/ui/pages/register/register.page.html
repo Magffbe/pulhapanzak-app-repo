@@ -44,7 +44,7 @@
           <ion-icon class="lock" src="/assets/lock-closed-outline.svg" slot="start"></ion-icon>
         </ion-label>
         <ion-input [type]="[passwordType]" formControlName="password" class="rounded-input">
-          <ion-icon class="eye" src="/assets/eye-off-outline.svg" slot="end" (click)="togglePassword()"></ion-icon>
+          <ion-icon class="eye" src="/assets/eye-off-outline.svg" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
         </ion-input>
       </ion-item>
       <ion-text color="danger" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
@@ -74,6 +74,7 @@
       </ion-text>
 
       <ion-button class="boton" color="717070" expand="block" type="submit" [disabled]="registerForm.invalid">Registrar</ion-button>
+      <ion-button expand="full" color="secondary" routerLink="/login">Iniciar Sesión</ion-button>
     </form>
   </div>
 </ion-content>
