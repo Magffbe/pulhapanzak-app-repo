@@ -38,6 +38,7 @@ import { PushNotifications } from '@capacitor/push-notifications';
     IonItem
   ],
 })
+
 export class ProfilePageComponent {
 logout() {
 throw new Error('Method not implemented.');

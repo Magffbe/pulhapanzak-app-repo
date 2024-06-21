@@ -1,8 +1,8 @@
-export interface User {
-    firstName: string;
+export interface UserDto {
+    Name: string;
     lastName: string;
     email: string;
     password: string;
-    dni: number;
-    phoneNumber: number;
+    dni: string;
+    phoneNumber: string;
 }

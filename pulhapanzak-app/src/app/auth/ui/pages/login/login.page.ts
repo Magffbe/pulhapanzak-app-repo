@@ -1,11 +1,13 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
   FormBuilder,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   IonContent,
   IonHeader,
@@ -18,19 +20,8 @@ import {
   IonInput,
   ToastController,
 } from '@ionic/angular/standalone';
-import { Login } from 'src/app/auth/models/login';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { LoginDto } from 'src/app/auth/models/login';
 import { AuthService} from 'src/app/auth/services/auth.service';
-import { Router } from '@angular/router';
-
-import { user } from '@angular/fire/auth';
-
-
-@NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
-})
-export class AppModule {}
 
 @Component({
   selector: 'app-login',
@@ -53,47 +44,65 @@ export class AppModule {}
   ],
 })
 export class LoginPage {
-goBack() {
-throw new Error('Method not implemented.');
-}
-onSubmit() {
-throw new Error('Method not implemented.');
-}
-  loginForm: FormGroup;
-  passwordType: string = 'password';
+private _authService = inject(AuthService);
+private formBuilder = inject(FormBuilder);
+private _router = inject(Router);
+private toastController = inject(ToastController);
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService
-  ) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+  loginForm: FormGroup = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+  });
+
+  get isEmailInvalid(): boolean {
+    const control = this.loginForm.get('email');
+    return control ? control.hasError('email') && control.touched : false;
+  }
+
+  get isEmailRequired(): boolean {
+    const control = this.loginForm.get('email');
+    return control ? control.hasError('required') && control.touched : false; 
+  }
+
+  get isPasswordInvalid(): boolean {
+    const control = this.loginForm.get('password');
+    return control ? control.hasError('required') && control.touched : false;
+
+  }
+ 
+get isFormInvalid(): boolean {
+  return this.loginForm.invalid;
+}
+
+OnSubmit(): void {
+  if (this.isFormInvalid) {
+    const login: LoginDto = {
+      email: this.loginForm?.get('email')?.value,
+      password: this.loginForm?.get('password')?.value,
+    };
+
+    this._authService.signInWithEmailAndPassword(login).then(() => {
+      this._router.navigate(['/home']);
+      this.showAlert('Has iniciado sesión correctamente');
+    }).catch((error) => {
+      this.showAlert('Upps, correo o contraseña incorrectos', true);
     });
-  }
-
-  get email() {
-    return this.loginForm.get('email');
-  }
-
-  get password() {
-    return this.loginForm.get('password');
-  }
-
-  onLogin() {
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      this.authService.login(email, password);
     }
   }
 
-  onForgotPassword() {
-    if (this.email && this.email.valid) {
-      this.authService.resetPassword(this.email.value);
-    }
-  }
+async showAlert(message: string, error: boolean = false): Promise<void> {
+  const toast = await this.toastController.create({
+    message: message,
+    duration: 5000,
+    position: 'bottom',
+    color: error ? 'danger' : 'success',
+  });
 
-  togglePasswordVisibility() {
-    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
-  }
+  await toast.present();
 }
+
+}
+  
+
+
+  

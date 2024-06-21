@@ -1,11 +1,12 @@
 // register-page.component.ts
-import { Component, Inject, OnInit, inject} from '@angular/core';
+import { Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
   FormBuilder,
   FormGroup,
   Validators,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import {
   IonContent,
@@ -19,10 +20,7 @@ import {
   IonInput,
   ToastController,
 } from '@ionic/angular/standalone';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AuthService} from 'src/app/auth/services/auth.service';
-import { Router } from '@angular/router';
+import {UserDto} from 'src/app/auth/models/user';
 
 @Component({
   selector: 'app-register-page',
@@ -45,62 +43,127 @@ import { Router } from '@angular/router';
   ],
 
 })
+
 export class RegisterPageComponent {
-onSubmit() {
-throw new Error('Method not implemented.');
-}
-goBack() {
-throw new Error('Method not implemented.');
-}
+
+  private formBuilder: FormBuilder = inject (FormBuilder);
   registerForm: FormGroup;
-  passwordType: string = 'password';
+  toastController: ToastController = inject (ToastController);
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService
-  ) {
-    this.registerForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      dni: ['', [Validators.required, Validators.minLength(13), Validators.pattern('^[0-9]*$')]],
-      phoneNumber: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^[0-9]*$')]],
-    });
+  constructor(){
+  this.registerForm = this.formBuilder.group({
+    Name: ['', [Validators.required]],
+    lastName: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+    dni: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(13),
+        Validators.pattern('^[0-9]+$'),
+      ],
+    ],
+    phoneNumber: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern('^[0-9]+$'),
+      ],
+    ],
+  });
+}
+
+  get isNameRequired(): boolean {
+    const control = this.registerForm.get('Name');
+    return control ? control.hasError('required') && control.touched : false;
   }
 
-  get firstName() {
-    return this.registerForm.get('firstName');
+  get isLastNameRequired(): boolean {
+    const control = this.registerForm.get('lastname');
+    return control ? control.hasError('required') && control.touched : false;
   }
 
-  get lastName() {
-    return this.registerForm.get('lastName');
+  get isEmailInvalid(): boolean {
+    const control = this.registerForm.get('email');
+    return control ? control.hasError('email') && control.touched : false;
   }
 
-  get email() {
-    return this.registerForm.get('email');
+  get isEmailRequired(): boolean {
+    const control = this.registerForm.get('email');
+    return control ? control.hasError('required') && control.touched : false;
   }
 
-  get password() {
-    return this.registerForm.get('password');
+  get isPasswordRequired(): boolean {
+    const control = this.registerForm.get('password');
+    return control ? control.hasError('required') && control.touched : false;
   }
 
-  get dni() {
-    return this.registerForm.get('dni');
+  get isDniRequired(): boolean {
+    const control = this.registerForm.get('dni');
+    return control ? control.hasError('required') && control.touched : false;
+
   }
 
-  get phoneNumber() {
-    return this.registerForm.get('phoneNumber');
+  get isDniValid(): boolean {
+    const control = this.registerForm.get('dni');
+    return control ? control.hasError('pattern') && control.touched : false;
   }
 
-  onRegister() {
-    if (this.registerForm.valid) {
-      const { email, password, ...userData } = this.registerForm.value;
-      this.authService.register(email, password, userData);
+get isDniPattern(): boolean {
+  const control = this.registerForm.get('dni');
+  return control ? control.hasError('pattern') && control.touched : false;
+}
+  
+get isPhoneNumberRequired(): boolean {
+  const control = this.registerForm.get('phoneNumber');
+  return control ? control.hasError('required') && control.touched : false;
+}
+
+get isPhoneNumberPattern(): boolean {
+  const control = this.registerForm.get('phoneNumber');
+  return control ? control.hasError('pattern') && control.touched : false;
+}
+
+  get isPhoneNumberValid(): boolean {
+    const control = this.registerForm.get('phoneNumber');
+    return control ? control.hasError('pattern') && control.touched : false;
+  }
+
+  get isFormValid(): boolean {
+    return this.registerForm.valid;
+  }
+
+  register(): void {
+    if(this.registerForm.valid) {
+      const register: UserDto = {
+        Name: this.registerForm.get('name')?.value,
+        lastName: this.registerForm.get('lastname')?.value,
+        email: this.registerForm.get('email')?.value,
+        password: this.registerForm.get('password')?.value,
+        dni: this.registerForm.get('dni')?.value,
+        phoneNumber: this.registerForm.get('phoneNumber')?.value,
+       
+      };
+      console.log(register);
     }
   }
 
-  togglePasswordVisibility() {
-    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+
+  async showAlert(message: string, error: boolean = false): Promise<void> {
+   const toast = await this.toastController.create({
+    message: message,
+    duration: 5000,
+    position: 'bottom',
+    color: error ? 'danger' : 'success',
+
+   });
+   await toast.present();
+
   }
+  
 }
+
+
+  

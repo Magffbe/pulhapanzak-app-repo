@@ -1,41 +1,46 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
-import { AuthService } from '../auth/services/auth.service';
-import { ToastController } from '@ionic/angular';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonRouterLink } from '@ionic/angular/standalone';
+//import { AuthService } from '../auth/services/auth.service';
+//import { ToastController } from '@ionic/angular';
+import {FormsModule} from '@angular/forms';
+import {RouterLink} from '@angular/router';
+import { CommonModule, DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent],
+  providers: [DatePipe],
+  imports: [IonRouterLink, IonHeader, IonToolbar, IonTitle, IonContent],
 })
+
 export class HomePage {
-  user = {
-    email: '',
-    password: '',
-    toastCtrl: 'any',
-  };
 
+className: string = 'Phullapanzak';
+ user: UserDto = {name: 'Charles Leclerc', id: 1};
+ currentDate: Date = new Date();
 
+ showButton: boolean = true; 
+ age: number = 26;
+ classCss: string = 'font-color';
 
-  constructor(private authService: AuthService, private toastCtrl: ToastController) {
-    this.toastCtrl = toastCtrl;
-  
+ constructor() {}
+
+ save(): void {
+  console.log('Save');
+  this.age = this.age + 1;
+  this.showButton = !this.showButton;
+  console.log(this.age);
+ }
+
+showAge(): void {
+  alert(this.age);
+
+}
 }
 
-async login() {
-  try {
-    await this.authService.login(this.user.email, this.user.password);
-    this.toastCtrl.create({
-      message: 'Iniciaste sesión correctamente',
-      duration: 2000,
-    }).then((toast) => toast.present());
-  } catch (error) {
-    this.toastCtrl.create({
-      message: 'Error al iniciar sesión',
-      duration: 2000,
-    }).then((toast) => toast.present());
-  }
-}
+export interface UserDto { 
+  name: string; 
+  id: number;
 }

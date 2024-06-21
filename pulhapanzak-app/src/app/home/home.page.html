@@ -1,7 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
+
+    <ion-title
+    [className]="classCss">
+    Bienvenido {{user.name}} a {{className}} {{currentDate | datepipe: {format: 'dd/MM/yyyy'}
+   
+    
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -17,4 +21,6 @@
     <strong>Ready to create an app?</strong>
     <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
   </div>
+
+  <ion-router-link routerLink="/login">Cerrar sesión</ion-router-link>
 </ion-content>
